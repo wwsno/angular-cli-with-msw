@@ -4,7 +4,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { AppHarness } from './app.harness';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { worker } from '../../../../msw-mocks/browser';
+import { startMockBackend, stopMockBackend } from 'projects/box/testing/mock-backend';
 
 describe('AppComponent', () => {
   @Component({
@@ -14,7 +14,7 @@ describe('AppComponent', () => {
   class AppHostComponent {}
 
   beforeEach(async () => {
-    await worker.start({ quiet: true });
+    await startMockBackend();
 
     await TestBed.configureTestingModule({
       declarations: [
@@ -28,7 +28,7 @@ describe('AppComponent', () => {
   });
 
   afterEach(async () => {
-    worker.stop();
+    stopMockBackend();
   });
 
   it('should do click', async () => {
