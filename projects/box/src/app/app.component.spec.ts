@@ -2,12 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { AppHarness } from './app.harness';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
 describe('AppComponent', () => {
   @Component({
-    template: '<app-root></app-root>'
+    template: '<app-root></app-root>',
+    changeDetection: ChangeDetectionStrategy.OnPush,
   })
   class AppHostComponent {}
 
