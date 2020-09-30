@@ -40,6 +40,9 @@ describe('AppComponent', () => {
 
     await harness.click();
 
-    expect(await harness.waitForDataToChangeTo('meow')).toEqual('meow');
+    // Rely on waiting in ngZone:
+    expect(await harness.data()).toEqual('meow');
+    // Wait in harness:
+    // expect(await harness.waitForDataToChangeTo('meow')).toEqual('meow');
   });
 });
