@@ -1,31 +1,37 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { AppHarness } from './app.harness';
+import { Component } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('AppComponent', () => {
+  @Component({
+    template: '<app-root></app-root>'
+  })
+  class AppHostComponent {}
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppHostComponent,
+        AppComponent,
       ],
+      imports: [
+        HttpClientModule,
+      ]
     }).compileComponents();
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
-
-  it(`should have as title 'box'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('box');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
+  it('should do click', async () => {
+    const fixture = TestBed.createComponent(AppHostComponent);
     fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('box app is running!');
+
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+    const harness = await loader.getHarness(AppHarness);
+
+    await harness.click();
+
+    expect(await harness.data()).toEqual('data');
   });
 });
