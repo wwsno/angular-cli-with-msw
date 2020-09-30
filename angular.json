@@ -92,7 +92,8 @@
             "karmaConfig": "projects/box/karma.conf.js",
             "assets": [
               "projects/box/src/favicon.ico",
-              "projects/box/src/assets"
+              "projects/box/src/assets",
+              "projects/box/src/mockServiceWorker.js"
             ],
             "styles": [
               "projects/box/src/styles.scss"

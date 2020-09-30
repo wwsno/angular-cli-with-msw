@@ -4,6 +4,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { AppHarness } from './app.harness';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { worker } from '../../../../msw-mocks/browser';
 
 describe('AppComponent', () => {
   @Component({
@@ -13,6 +14,8 @@ describe('AppComponent', () => {
   class AppHostComponent {}
 
   beforeEach(async () => {
+    await worker.start({ quiet: true });
+
     await TestBed.configureTestingModule({
       declarations: [
         AppHostComponent,
@@ -24,6 +27,10 @@ describe('AppComponent', () => {
     }).compileComponents();
   });
 
+  afterEach(async () => {
+    worker.stop();
+  });
+
   it('should do click', async () => {
     const fixture = TestBed.createComponent(AppHostComponent);
     fixture.detectChanges();
@@ -33,6 +40,6 @@ describe('AppComponent', () => {
 
     await harness.click();
 
-    expect(await harness.data()).toEqual('data');
+    expect(await harness.data()).toEqual('meow');
   });
 });

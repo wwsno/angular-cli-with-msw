@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -10,17 +10,19 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent {
   data = 'no-data';
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, private cd: ChangeDetectorRef) {}
 
   myClick(): void {
     console.log('click');
 
-    this.httpClient.get<string>('http://example.com/meow').subscribe({
+    this.httpClient.get<string>('meow', { responseType: 'text' as 'json' }).subscribe({
       next: (result) => {
         this.data = result;
+        this.cd.markForCheck();
       },
       error: (e) => {
         this.data = e.message;
+        this.cd.markForCheck();
       }
     });
   }
