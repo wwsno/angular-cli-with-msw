@@ -40,6 +40,6 @@ describe('AppComponent', () => {
 
     await harness.click();
 
-    expect(await harness.data()).toEqual('meow');
+    expect(await harness.waitForDataToChangeTo('meow')).toEqual('meow');
   });
 });
